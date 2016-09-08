@@ -5,7 +5,7 @@ Yuuh Pizza Kebab is a pizza ordering service.
 $ git clone https://github.com/lex/yuuh-pizza-kebab
 $ cd yuuh-pizza-kebab
 $ virtualenv venv
-(venv) $ . venv/bin/activate
+$ . venv/bin/activate
 (venv) $ pip install -r requirements.txt
 
 (venv) $ heroku local
