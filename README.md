@@ -19,3 +19,5 @@ $
 ##### Good To Know
 - [Live demo](http://yuuh-pizza-service.herokuapp.com)
 - [Documentation](doc/documentation.pdf)
+- [Subject](http://advancedkittenry.github.io/suunnittelu_ja_tyoymparisto/aiheet/Pizzapalvelu.html)
+
