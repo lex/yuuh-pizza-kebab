@@ -7,9 +7,7 @@ elif [ $1 = 'heroku' ]; then
     heroku pg:psql < sql/create_tables.sql
     exit;
 else
-    echo 'usage:' 
+    echo 'usage:'
     echo 'create_tables.sh local database_name'
     echo 'create_tables.sh heroku'
 fi
-
-
