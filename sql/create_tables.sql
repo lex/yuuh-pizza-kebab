@@ -51,8 +51,8 @@ paid_at date
 create table YPKOrder_Pizza (
 order_id int references YPKOrder (id),
 pizza_id int references Pizza (id),
-oregano_enabled boolean not null,
-garlic_enabled boolean not null,
+oregano_enabled boolean not null default false,
+garlic_enabled boolean not null default false,
 constraint YPKOrder_Pizza_pkey primary key (order_id, pizza_id)
 );
 
