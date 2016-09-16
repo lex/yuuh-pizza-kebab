@@ -19,21 +19,13 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>Bolognese</td>
-                <td>Ground beef</td>
-                <td>7.20</td>
-            </tr>
-            <tr>
-                <td>Frutti di Mare</td>
-                <td>Shrimp, clam, tuna</td>
-                <td>8.10</td>
-            </tr>
-            <tr>
-                <td>Romeo</td>
-                <td>Shrimp, pineapple, exotic cheese, salami</td>
-                <td>8.20</td>
-            </tr>
+                {% for p in pizzas %}
+                <tr>
+                    <td>{{ p.name }}</td>
+                    <td>{{ p.toppings_as_string() }}</td>
+                    <td>{{ p.price }}</td>
+                </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>

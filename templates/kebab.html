@@ -18,22 +18,12 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>Kebab with french fries</td>
-                <td>9.00</td>
-            </tr>
-            <tr>
-                <td>Kebab with rice</td>
-                <td>8.30</td>
-            </tr>
-            <tr>
-                <td>Iskender kebab</td>
-                <td>8.90</td>
-            </tr>
-            <tr>
-                <td>Pita kebab</td>
-                <td>8.50</td>
-            </tr>
+                {% for k in kebabs %}
+                <tr>
+                    <td>{{ k.name }}</td>
+                    <td>{{ k.price }}</td>
+                </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>
