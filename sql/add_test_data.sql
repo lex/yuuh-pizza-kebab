@@ -35,4 +35,12 @@ insert into Pizza_Topping (pizza_id, topping_id) values ((select id from Pizza w
 insert into Pizza_Topping (pizza_id, topping_id) values ((select id from Pizza where name like 'Romeo'), (select id from Topping where name like 'Exotic cheese'));
 insert into Pizza_Topping (pizza_id, topping_id) values ((select id from Pizza where name like 'Romeo'), (select id from Topping where name like 'Salami'));
 
+-- Add some drinks as well
+
+insert into Drink (name, price) values ('Cola', 0.49);
+insert into Drink (name, price) values ('Orange juice', 0.49);
+insert into Drink (name, price) values ('Milk', 0.39);
+insert into Drink (name, price) values ('Beer', 0.99);
+insert into Drink (name, price) values ('Imported beer', 1.99);
+
 commit;
