@@ -14,3 +14,13 @@ def get_user(username, password):
     for u in users:
         print(u)
         return User(u[0], u[1], u[3])
+
+
+
+def create_user(username, password):
+    t = text(
+        'insert into YPKUser (username, password) values (:username, :password)')
+
+    db.engine.execute(t, username=username, password=password)
+
+    return get_user(username, password)
