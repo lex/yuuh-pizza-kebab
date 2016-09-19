@@ -13,6 +13,7 @@
         <table class="table table-bordered">
             <thead>
             <tr>
+                <th></th>
                 <th>Drink</th>
                 <th>Price</th>
             </tr>
@@ -20,6 +21,7 @@
             <tbody>
                 {% for d in drinks %}
                 <tr>
+                    <td><img src="{{ d.image_url }}" style="width: 75px; height: 75px;"></td>
                     <td>{{ d.name }}</td>
                     <td>{{ d.price }}</td>
                 </tr>

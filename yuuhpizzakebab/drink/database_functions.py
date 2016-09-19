@@ -8,6 +8,6 @@ def get_drinks():
     drinks = []
 
     for r in result:
-        drinks.append(Drink(r[0], r[1], r[2]))
+        drinks.append(Drink(r[0], r[1], r[2], r[3]))
 
     return drinks

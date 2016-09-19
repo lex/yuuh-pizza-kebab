@@ -17,7 +17,8 @@ create table Topping (
 create table Pizza (
   id serial primary key,
   name varchar(512) not null,
-  price money not null
+  price money not null,
+  image_url varchar(512)
 );
 
 create table Pizza_Topping (
@@ -29,13 +30,15 @@ create table Pizza_Topping (
 create table Kebab (
   id serial primary key,
   name varchar(512) not null,
-  price money not null
+  price money not null,
+  image_url varchar(512)
 );
 
 create table Drink (
   id serial primary key,
   name varchar(512) not null,
-  price money not null
+  price money not null,
+  image_url varchar(512)
 );
 
 create table Discount (

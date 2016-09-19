@@ -8,6 +8,6 @@ def get_kebabs():
     kebabs = []
 
     for r in result:
-        kebabs.append(Kebab(r[0], r[1], r[2]))
+        kebabs.append(Kebab(r[0], r[1], r[2], r[3]))
 
     return kebabs

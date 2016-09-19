@@ -2,10 +2,11 @@ import re
 
 
 class Pizza():
-    def __init__(self, id, name, price, toppings):
+    def __init__(self, id, name, price, image_url, toppings):
         self.id = id
         self.name = name
         self.price = price
+        self.image_url = image_url
         self.toppings = toppings
 
     def toppings_as_string(self):
@@ -20,20 +21,9 @@ class Pizza():
         s = re.sub(', $', '', s)
         return s
 
-    def serialize(self):
-        return {
-            'id': self.id,
-            'name': self.name,
-            'price': self.price,
-            'toppings': [t.serialize() for t in self.toppings],
-        }
-
 
 class Topping():
     def __init__(self, id, name, price):
         self.id = id
         self.name = name
         self.price = price
-
-    def serialize(self):
-        return {'id': self.id, 'name': self.name, 'price': self.price, }

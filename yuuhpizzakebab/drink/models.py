@@ -1,8 +1,6 @@
 class Drink():
-    def __init__(self, id, name, price):
+    def __init__(self, id, name, price, image_url):
         self.id = id
         self.name = name
         self.price = price
-
-    def serialize(self):
-        return {'id': self.id, 'name': self.name, 'price': self.price, }
+        self.image_url = image_url

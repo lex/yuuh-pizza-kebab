@@ -18,6 +18,6 @@ def get_pizzas():
         for t in toppings_results:
             toppings.append(Topping(t[0], t[1], t[2]))
 
-        pizzas.append(Pizza(r[0], r[1], r[2], toppings))
+        pizzas.append(Pizza(r[0], r[1], r[2], r[3], toppings))
 
     return pizzas
