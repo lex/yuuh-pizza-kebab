@@ -1,6 +1,6 @@
 from sqlalchemy import text
 from yuuhpizzakebab import db
-from models import (Pizza, Topping, Kebab, )
+from yuuhpizzakebab.pizza.models import Pizza, Topping
 
 
 def get_pizzas():
@@ -21,13 +21,3 @@ def get_pizzas():
         pizzas.append(Pizza(r[0], r[1], r[2], toppings))
 
     return pizzas
-
-
-def get_kebabs():
-    result = db.engine.execute('select * from Kebab')
-    kebabs = []
-
-    for r in result:
-        kebabs.append(Kebab(r[0], r[1], r[2]))
-
-    return kebabs

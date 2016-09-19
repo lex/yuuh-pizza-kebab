@@ -7,6 +7,9 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 db = SQLAlchemy(app)
 
 import yuuhpizzakebab.views
+import yuuhpizzakebab.pizza.views
+import yuuhpizzakebab.kebab.views
+import yuuhpizzakebab.drink.views
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')

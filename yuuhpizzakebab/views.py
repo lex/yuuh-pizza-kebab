@@ -1,25 +1,10 @@
 from yuuhpizzakebab import app
-import yuuhpizzakebab.database_functions as db_functions
 from flask import render_template
 
 
 @app.route('/')
 def home():
     return render_template('index.html', active_tab='home')
-
-
-@app.route('/pizza')
-def list_pizza():
-    return render_template('pizza.html',
-                           active_tab='pizza',
-                           pizzas=db_functions.get_pizzas())
-
-
-@app.route('/kebab')
-def list_kebab():
-    return render_template('kebab.html',
-                           active_tab='kebab',
-                           kebabs=db_functions.get_kebabs())
 
 
 @app.route('/about')

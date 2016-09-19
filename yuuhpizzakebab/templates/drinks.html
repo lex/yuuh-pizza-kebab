@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block js %}
+{% endblock %}
+
+{% block main %}
+<html lang="en">
+  <body>
+    <div class="container">
+      <div class="starter-template">
+        <h1>Drinks</h1>
+      </div>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>Drink</th>
+                <th>Price</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for d in drinks %}
+                <tr>
+                    <td>{{ d.name }}</td>
+                    <td>{{ d.price }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+  </body>
+</html>
+{% endblock %}
