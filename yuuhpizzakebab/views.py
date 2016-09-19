@@ -3,7 +3,7 @@ from flask import render_template
 
 
 @app.route('/')
-def home():
+def index():
     return render_template('index.html', active_tab='home')
 
 
@@ -17,11 +17,3 @@ def contact():
     return render_template('contact.html', active_tab='contact')
 
 
-@app.route('/sign_in')
-def sign_in():
-    return render_template('signin.html', active_tab='sign_in')
-
-
-@app.route('/create_account')
-def create_account():
-    return render_template('createaccount.html', active_tab='create_account')

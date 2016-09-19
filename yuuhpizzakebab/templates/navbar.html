@@ -17,8 +17,14 @@
         <li class="{{'active' if active_tab == 'drinks'}}"><a href="/drinks">Drinks</a></li>
         <li class="{{'active' if active_tab == 'about'}}"><a href="/about">About</a></li>
         <li class="{{'active' if active_tab == 'contact'}}"><a href="/contact">Contact</a></li>
-        <li class="{{'active' if active_tab == 'sign_in'}}"><a href="/sign_in">Log In</a></li>
-        <li class="{{'active' if active_tab == 'create_account'}}"><a href="/create_account">Create Account</a></li>
+        <li class="navbar-text"></li>
+        {% if not session.logged_in %}
+            <li class="{{'active' if active_tab == 'login'}}"><a href="/login">Log In</a></li>
+            <li class="{{'active' if active_tab == 'create_account'}}"><a href="/create_account">Create Account</a></li>
+        {% else %}
+            <li class="navbar-text"><p>Logged in as {{ session['username'] }}</p></li>
+            <li class=""><a href="/logout">Log out</a></li>
+        {% endif %}
         </ul>
     </div><!--/.nav-collapse -->
     </div>
