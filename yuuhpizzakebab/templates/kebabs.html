@@ -22,7 +22,7 @@
                 {% for k in kebabs %}
                 <tr>
                     <td><img src="{{ k.image_url }}" style="width: 75px; height: 75px;"></td>
-                    <td>{{ k.name }}</td>
+                    <td>{{ k.name }} ({{ k.id }})</td>
                     <td>{{ k.price }}</td>
                 </tr>
                 {% endfor %}
