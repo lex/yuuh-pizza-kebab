@@ -16,6 +16,10 @@
                 <th></th>
                 <th>Drink</th>
                 <th>Price</th>
+                {% if session.is_admin %}
+                <th><a href="/drink/create">Add new</a></th>
+                <th></th>
+                {% endif %}
             </tr>
             </thead>
             <tbody>
@@ -24,6 +28,10 @@
                     <td><img src="{{ d.image_url }}" style="width: 75px; height: 75px;"></td>
                     <td>{{ d.name }}</td>
                     <td>{{ d.price }}</td>
+                    {% if session.is_admin %}
+                    <td><a href="/drink/edit/{{ d.id }}">Edit</a></td>
+                    <td><a href="/drink/delete/{{ d.id }}">Delete</a></td>
+                    {% endif %}
                 </tr>
                 {% endfor %}
             </tbody>
