@@ -15,6 +15,9 @@
         <li class="{{'active' if active_tab == 'pizzas'}}"><a href="/pizzas">Pizzas</a></li>
         <li class="{{'active' if active_tab == 'kebabs'}}"><a href="/kebabs">Kebabs</a></li>
         <li class="{{'active' if active_tab == 'drinks'}}"><a href="/drinks">Drinks</a></li>
+        {% if session.is_admin %}
+            <li class="{{'active' if active_tab == 'toppings'}}"><a href="/toppings">Toppings</a></li>
+        {% endif %}
         <li class="{{'active' if active_tab == 'about'}}"><a href="/about">About</a></li>
         <li class="{{'active' if active_tab == 'contact'}}"><a href="/contact">Contact</a></li>
         <li class="navbar-text"></li>

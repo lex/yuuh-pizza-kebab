@@ -3,6 +3,8 @@ import re
 from sqlalchemy import text
 from yuuhpizzakebab import db
 
+from yuuhpizzakebab.topping.models import Topping
+
 
 def get_pizzas():
     result = db.engine.execute('select * from Pizza')
@@ -10,25 +12,14 @@ def get_pizzas():
 
     for r in result:
         pizza_id = int(r[0])
-        toppings = get_toppings(pizza_id)
+        toppings = get_toppings_for_pizza(pizza_id)
 
         pizzas.append(Pizza(r[0], r[1], r[2], r[3], toppings))
 
     return pizzas
 
 
-def get_all_toppings():
-    toppings = []
-
-    result = db.engine.execute('select * from Topping')
-
-    for t in result:
-        toppings.append(Topping(t[0], t[1], t[2]))
-
-    return toppings
-
-
-def get_toppings(pizza_id):
+def get_toppings_for_pizza(pizza_id):
     toppings = []
 
     t = text(
@@ -58,7 +49,7 @@ def get_pizza(id):
 
     for r in pizza_results:
         pizza_id = int(r[0])
-        toppings = get_toppings(pizza_id)
+        toppings = get_toppings_for_pizza(pizza_id)
         return Pizza(r[0], r[1], r[2], r[3], toppings)
 
 
@@ -165,13 +156,3 @@ class Pizza():
 
         return False
 
-
-class Topping():
-    def __init__(self, id, name, price):
-        self.id = id
-        self.name = name
-        self.price = price
-
-    @staticmethod
-    def get_all():
-        return get_all_toppings()

@@ -36,6 +36,7 @@ import yuuhpizzakebab.views
 import yuuhpizzakebab.pizza.views
 import yuuhpizzakebab.kebab.views
 import yuuhpizzakebab.drink.views
+import yuuhpizzakebab.topping.views
 import yuuhpizzakebab.user.views
 
 if __name__ == '__main__':
