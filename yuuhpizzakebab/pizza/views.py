@@ -35,7 +35,7 @@ def edit_pizza(pizza_id):
         price = request.form['pizza_price']
         image_url = request.form['pizza_image_url']
 
-        p = Pizza(pizza_id, name, price, image_url)
+        p = Pizza(pizza_id, name, price, image_url, [])
         p.save()
 
         return redirect(url_for('list_pizzas'))
