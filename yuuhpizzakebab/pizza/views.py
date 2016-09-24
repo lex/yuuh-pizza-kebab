@@ -1,6 +1,6 @@
 from yuuhpizzakebab import app, admin_required, login_required
 
-from .models import Pizza
+from .models import Pizza, Topping
 from flask import render_template, session, redirect, url_for, request
 
 
@@ -19,12 +19,20 @@ def create_pizza():
         price = request.form['pizza_price']
         image_url = request.form['pizza_image_url']
 
+        selected_toppings = request.form.getlist('toppings')
+
         p = Pizza(None, name, price, image_url, [])
         p.save()
 
+        for t in selected_toppings:
+            topping_id = int(t)
+            p.add_topping(topping_id)
+
         return redirect(url_for('list_pizzas'))
 
-    return render_template('pizza/create_pizza.html', active_tab='pizzas', )
+    return render_template('pizza/create_pizza.html',
+                           active_tab='pizzas',
+                           available_toppings=Topping.get_all())
 
 
 @app.route('/pizza/edit/<int:pizza_id>', methods=['GET', 'POST'])
@@ -38,6 +46,14 @@ def edit_pizza(pizza_id):
         p = Pizza(pizza_id, name, price, image_url, [])
         p.save()
 
+        p.remove_toppings()
+
+        selected_toppings = request.form.getlist('toppings')
+
+        for t in selected_toppings:
+            topping_id = int(t)
+            p.add_topping(topping_id)
+
         return redirect(url_for('list_pizzas'))
 
     pizza = Pizza.get_by_id(pizza_id)
@@ -47,7 +63,8 @@ def edit_pizza(pizza_id):
 
     return render_template('pizza/edit_pizza.html',
                            active_tab='pizzas',
-                           pizza=pizza)
+                           pizza=pizza,
+                           available_toppings=Topping.get_all())
 
 
 @app.route('/pizza/delete/<int:pizza_id>')

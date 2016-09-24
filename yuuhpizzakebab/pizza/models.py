@@ -17,17 +17,36 @@ def get_pizzas():
     return pizzas
 
 
+def get_all_toppings():
+    toppings = []
+
+    result = db.engine.execute('select * from Topping')
+
+    for t in result:
+        toppings.append(Topping(t[0], t[1], t[2]))
+
+    return toppings
+
+
 def get_toppings(pizza_id):
     toppings = []
 
     t = text(
-        'select * from Topping where id in (select topping_id from Pizza_Topping where pizza_id = :pizza_id)')
-    topping_results = db.engine.execute(t, pizza_id=pizza_id)
+        'select * from Topping where id in (select topping_id from Pizza_Topping where pizza_id = :pizza__id)')
+    topping_results = db.engine.execute(t, pizza__id=pizza_id)
 
     for t in topping_results:
         toppings.append(Topping(t[0], t[1], t[2]))
 
     return toppings
+
+
+def add_topping_to_pizza(pizza_id, topping_id):
+    t = text(
+        'insert into Pizza_Topping (pizza_id, topping_id) values (:pizza__id, :topping__id)')
+    topping_results = db.engine.execute(t,
+                                        pizza__id=pizza_id,
+                                        topping__id=topping_id)
 
 
 def get_pizza(id):
@@ -56,11 +75,14 @@ def delete_toppings_for_pizza(pizza_id):
 
 def save_pizza(pizza):
     t = text(
-        'insert into Pizza (name, price, image_url) values (:name, :price, :image__url)')
-    db.engine.execute(t,
-                      name=pizza.name,
-                      price=pizza.price,
-                      image__url=pizza.image_url)
+        'insert into Pizza (name, price, image_url) values (:name, :price, :image__url) returning id')
+    result = db.engine.execute(t,
+                               name=pizza.name,
+                               price=pizza.price,
+                               image__url=pizza.image_url)
+    for r in result:
+        pizza.id = int(r[0])
+        return
 
 
 def update_pizza(pizza):
@@ -122,9 +144,34 @@ class Pizza():
 
         delete_pizza(self.id)
 
+    def add_topping(self, topping_id):
+        if not self.id:
+            print 'can\'t add toppings without own id t: pizza'
+            return
+
+        add_topping_to_pizza(self.id, topping_id)
+
+    def remove_toppings(self):
+        if not self.id:
+            print 'can\'t remove topping without id t: pizza'
+            return
+
+        delete_toppings_for_pizza(self.id)
+
+    def has_topping(self, topping_id):
+        for t in self.toppings:
+            if t.id == topping_id:
+                return True
+
+        return False
+
 
 class Topping():
     def __init__(self, id, name, price):
         self.id = id
         self.name = name
         self.price = price
+
+    @staticmethod
+    def get_all():
+        return get_all_toppings()

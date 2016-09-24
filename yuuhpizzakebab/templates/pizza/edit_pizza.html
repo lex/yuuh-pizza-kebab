@@ -28,6 +28,11 @@
             <input type="url" class="form-control" name="pizza_image_url" value="{{ pizza.image_url }}">
             </div>
 
+            {% for t in available_toppings %}
+                <input id="{{ t.id }}" type="checkbox" name="toppings" value="{{ t.id }}" {{ 'checked' if pizza.has_topping(t.id) }}/>
+                <label for="{{ t.id }}">{{ t.name }}</label>
+                <br />
+            {% endfor %}
             <button type="submit" class="btn btn-primary">Save</button>
         </form>
       </div>
