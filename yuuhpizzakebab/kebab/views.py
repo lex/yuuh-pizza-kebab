@@ -1,4 +1,4 @@
-from yuuhpizzakebab import app
+from yuuhpizzakebab import app, admin_required, login_required
 from .models import Kebab
 from flask import render_template, session, redirect, url_for, request
 
@@ -11,6 +11,7 @@ def list_kebabs():
 
 
 @app.route('/kebab/create', methods=['GET', 'POST'])
+@admin_required
 def create_kebab():
     if request.method == 'POST':
         name = request.form['kebab_name']
@@ -26,6 +27,7 @@ def create_kebab():
 
 
 @app.route('/kebab/edit/<int:kebab_id>', methods=['GET', 'POST'])
+@admin_required
 def edit_kebab(kebab_id):
     if request.method == 'POST':
         name = request.form['kebab_name']
@@ -46,6 +48,7 @@ def edit_kebab(kebab_id):
 
 
 @app.route('/kebab/delete/<int:kebab_id>')
+@admin_required
 def delete_kebab(kebab_id):
     Kebab.delete_by_id(kebab_id)
 
