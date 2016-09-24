@@ -13,7 +13,7 @@ def get_user(username, password):
 
     for u in users:
         print(u)
-        return User(u[0], u[1], u[3])
+        return User(u[0], u[1], u[4])
 
 
 
