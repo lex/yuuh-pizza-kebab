@@ -1,7 +1,7 @@
 begin;
 
 -- Demo user
-insert into YPKUser (username, password) values ('yuuh', 'yuuh');
+insert into YPKUser (username, password, is_admin) values ('yuuh', 'yuuh', true);
 
 -- Demo kebabs
 insert into Kebab (name, price, image_url) values ('Kebab with french fries', 9.00, '/static/img/demo/kebabfrenchfries.jpg');

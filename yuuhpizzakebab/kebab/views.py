@@ -1,11 +1,11 @@
 from yuuhpizzakebab import app
-from yuuhpizzakebab.kebab.models import Kebab
+from .models import Kebab
 from flask import render_template, session, redirect, url_for, request
 
 
 @app.route('/kebabs')
 def list_kebabs():
-    return render_template('kebabs.html',
+    return render_template('kebab/kebabs.html',
                            active_tab='kebabs',
                            kebabs=Kebab.get_all())
 
@@ -22,7 +22,7 @@ def create_kebab():
 
         return redirect(url_for('list_kebabs'))
 
-    return render_template('create_kebab.html', active_tab='kebabs', )
+    return render_template('kebab/create_kebab.html', active_tab='kebabs', )
 
 
 @app.route('/kebab/edit/<int:kebab_id>', methods=['GET', 'POST'])
@@ -42,7 +42,7 @@ def edit_kebab(kebab_id):
     if not kebab:
         return redirect(url_for('list_kebabs'))
 
-    return render_template('edit_kebab.html', active_tab='kebabs', kebab=kebab)
+    return render_template('kebab/edit_kebab.html', active_tab='kebabs', kebab=kebab)
 
 
 @app.route('/kebab/delete/<int:kebab_id>')

@@ -17,6 +17,10 @@
                 <th>Pizza</th>
                 <th>Toppings</th>
                 <th>Price</th>
+                {% if session.is_admin %}
+                <th><a href="/pizza/create">Add new</a></th>
+                <th></th>
+                {% endif %}
             </tr>
             </thead>
             <tbody>
@@ -26,6 +30,10 @@
                     <td>{{ p.name }}</td>
                     <td>{{ p.toppings_as_string() }}</td>
                     <td>{{ p.price }}</td>
+                    {% if session.is_admin %}
+                    <td><a href="/pizza/edit/{{ p.id }}">Edit</a></td>
+                    <td><a href="/pizza/delete/{{ p.id }}">Delete</a></td>
+                    {% endif %}
                 </tr>
                 {% endfor %}
             </tbody>
