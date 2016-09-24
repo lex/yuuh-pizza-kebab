@@ -16,6 +16,10 @@
                 <th></th>
                 <th>Kebab</th>
                 <th>Price</th>
+                {% if session.is_admin %}
+                <th><a href="/kebab/create">Add new</a></th>
+                <th></th>
+                {% endif %}
             </tr>
             </thead>
             <tbody>
@@ -24,6 +28,11 @@
                     <td><img src="{{ k.image_url }}" style="width: 75px; height: 75px;"></td>
                     <td>{{ k.name }} ({{ k.id }})</td>
                     <td>{{ k.price }}</td>
+                    {% if session.is_admin %}
+                    <td><a href="/kebab/edit/{{ k.id }}">Edit</a></td>
+                    <td><a href="/kebab/delete/{{ k.id }}">Delete</a></td>
+                    {% endif %}
+            </tr>
                 </tr>
                 {% endfor %}
             </tbody>

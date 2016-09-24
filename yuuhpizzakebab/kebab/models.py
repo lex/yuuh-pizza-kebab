@@ -19,7 +19,7 @@ def get_kebab(id):
     if not kebab_results:
         return None
 
-    for r in kebab_result:
+    for r in kebab_results:
         return Kebab(r[0], r[1], r[2], r[3])
 
 
@@ -37,12 +37,25 @@ def save_kebab(kebab):
                       image__url=kebab.image_url)
 
 
+def update_kebab(kebab):
+    t = text(
+        'update Kebab set name = :name, price = :price, image_url = :image__url where id = :kebab_id')
+    db.engine.execute(t,
+                      name=kebab.name,
+                      price=kebab.price,
+                      image__url=kebab.image_url,
+                      kebab_id=kebab.id)
+
+
 class Kebab():
     def __init__(self, id, name, price, image_url):
         self.id = id
         self.name = name
         self.price = price
         self.image_url = image_url
+
+    def price_without_dollar_sign(self):
+        return str(self.price)[1:]
 
     @staticmethod
     def get_all():
@@ -54,7 +67,7 @@ class Kebab():
 
     def save(self):
         if self.id:
-            print 'i exist already t: kebab'
+            update_kebab(self)
             return
 
         save_kebab(self)

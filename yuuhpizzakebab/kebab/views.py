@@ -10,24 +10,39 @@ def list_kebabs():
                            kebabs=Kebab.get_all())
 
 
-@app.route('/kebab_test')
-def kebab_test():
-    k = Kebab(None, 'juuh', 120.15, 'rip')
-    k.save()
-
-    return redirect(url_for('list_kebabs'))
-
-
-@app.route('/kebab/create', methods=['POST'])
+@app.route('/kebab/create', methods=['GET', 'POST'])
 def create_kebab():
-    name = request.form['kebab_name']
-    price = request.form['kebab_price']
-    image_url = request.form['kebab_image_url']
+    if request.method == 'POST':
+        name = request.form['kebab_name']
+        price = request.form['kebab_price']
+        image_url = request.form['kebab_image_url']
 
-    k = Kebab(None, name, price, image_url)
-    k.save()
+        k = Kebab(None, name, price, image_url)
+        k.save()
 
-    return redirect(url_for('list_kebabs'))
+        return redirect(url_for('list_kebabs'))
+
+    return render_template('create_kebab.html', active_tab='kebabs', )
+
+
+@app.route('/kebab/edit/<int:kebab_id>', methods=['GET', 'POST'])
+def edit_kebab(kebab_id):
+    if request.method == 'POST':
+        name = request.form['kebab_name']
+        price = request.form['kebab_price']
+        image_url = request.form['kebab_image_url']
+
+        k = Kebab(kebab_id, name, price, image_url)
+        k.save()
+
+        return redirect(url_for('list_kebabs'))
+
+    kebab = Kebab.get_by_id(kebab_id)
+
+    if not kebab:
+        return redirect(url_for('list_kebabs'))
+
+    return render_template('edit_kebab.html', active_tab='kebabs', kebab=kebab)
 
 
 @app.route('/kebab/delete/<int:kebab_id>')
