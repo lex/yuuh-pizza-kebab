@@ -6,9 +6,7 @@ from flask import render_template, session, redirect, url_for, request
 
 @app.route('/pizzas')
 def list_pizzas():
-    return render_template('pizza/pizzas.html',
-                           active_tab='pizzas',
-                           pizzas=Pizza.get_all())
+    return render_template('pizza/pizzas.html', pizzas=Pizza.get_all())
 
 
 @app.route('/pizza/create', methods=['GET', 'POST'])
@@ -31,7 +29,6 @@ def create_pizza():
         return redirect(url_for('list_pizzas'))
 
     return render_template('pizza/create_pizza.html',
-                           active_tab='pizzas',
                            available_toppings=Topping.get_all())
 
 
@@ -62,7 +59,6 @@ def edit_pizza(pizza_id):
         return redirect(url_for('list_pizzas'))
 
     return render_template('pizza/edit_pizza.html',
-                           active_tab='pizzas',
                            pizza=pizza,
                            available_toppings=Topping.get_all())
 

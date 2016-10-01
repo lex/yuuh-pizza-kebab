@@ -6,9 +6,7 @@ from flask import render_template, session, redirect, url_for, request
 @app.route('/toppings')
 @admin_required
 def list_toppings():
-    return render_template('topping/toppings.html',
-                           active_tab='toppings',
-                           toppings=Topping.get_all())
+    return render_template('topping/toppings.html', toppings=Topping.get_all())
 
 
 @app.route('/topping/create', methods=['GET', 'POST'])
@@ -23,8 +21,7 @@ def create_topping():
 
         return redirect(url_for('list_toppings'))
 
-    return render_template('topping/create_topping.html',
-                           active_tab='toppings', )
+    return render_template('topping/create_topping.html')
 
 
 @app.route('/topping/edit/<int:topping_id>', methods=['GET', 'POST'])
@@ -44,9 +41,7 @@ def edit_topping(topping_id):
     if not topping:
         return redirect(url_for('list_toppings'))
 
-    return render_template('topping/edit_topping.html',
-                           active_tab='toppings',
-                           topping=topping)
+    return render_template('topping/edit_topping.html', topping=topping)
 
 
 @app.route('/topping/delete/<int:topping_id>')

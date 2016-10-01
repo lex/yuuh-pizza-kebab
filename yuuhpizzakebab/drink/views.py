@@ -2,11 +2,11 @@ from yuuhpizzakebab import app, admin_required, login_required
 from .models import Drink
 from flask import render_template, session, redirect, url_for, request
 
+
 @app.route('/drinks')
 def list_drinks():
-    return render_template('drink/drinks.html',
-                           active_tab='drinks',
-                           drinks=Drink.get_all())
+    return render_template('drink/drinks.html', drinks=Drink.get_all())
+
 
 @app.route('/drink/create', methods=['GET', 'POST'])
 @admin_required
@@ -21,7 +21,7 @@ def create_drink():
 
         return redirect(url_for('list_drinks'))
 
-    return render_template('drink/create_drink.html', active_tab='drinks', )
+    return render_template('drink/create_drink.html')
 
 
 @app.route('/drink/edit/<int:drink_id>', methods=['GET', 'POST'])
@@ -42,7 +42,7 @@ def edit_drink(drink_id):
     if not drink:
         return redirect(url_for('list_drinks'))
 
-    return render_template('drink/edit_drink.html', active_tab='drinks', drink=drink)
+    return render_template('drink/edit_drink.html', drink=drink)
 
 
 @app.route('/drink/delete/<int:drink_id>')

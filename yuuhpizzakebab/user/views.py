@@ -20,7 +20,7 @@ def login():
 
         return redirect(url_for('index'))
 
-    return render_template('login.html', active_tab='login')
+    return render_template('login.html')
 
 
 @app.route('/logout')
@@ -49,4 +49,4 @@ def create_account():
 
         return redirect(url_for('index'))
 
-    return render_template('createaccount.html', active_tab='create_account')
+    return render_template('createaccount.html')
