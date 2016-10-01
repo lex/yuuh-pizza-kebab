@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block js %}
+{% endblock %}
+
+{% block main %}
+<html lang="en">
+  <body>
+    <div class="container">
+      <div class="starter-template">
+          <h1>New Order</h1>
+
+            <table class="table table-bordered table-hover table-responsive">
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Type</th>
+                        <th>Price</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in pizzas %}
+                        <tr>
+                            <td>{{ p.name }}</td>
+                            <td>Pizza</td>
+                            <td>{{ p.price }}</td>
+                            <td><a href="{{ url_for('new_order') }}">Remove</a></td>
+                        </tr>
+                    {% endfor %}
+
+                    {% for k in kebabs %}
+                        <tr>
+                            <td>{{ k.name }}</td>
+                            <td>Kebab</td>
+                            <td>{{ k.price }}</td>
+                            <td><a href="{{ url_for('new_order') }}">Remove</a></td>
+                        </tr>
+                    {% endfor %}
+
+                    {% for d in drinks %}
+                        <tr>
+                            <td>{{ d.name }}</td>
+                            <td>Drink</td>
+                            <td>{{ d.price }}</td>
+                            <td><a href="{{ url_for('new_order') }}">Remove</a></td>
+                        </tr>
+                    {% endfor %}
+
+                    <tr>
+                        <td><strong>Total</strong></td>
+                        <td></td>
+                        <td><strong>{{ '${}'.format(total_price) }}</strong></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+
+
+            <div class="btn-group btn-group-justified">
+                <a href="{{ url_for('select_pizza_from_list') }}" class="btn btn-primary">Add Pizza</a>
+                <a href="{{ url_for('select_kebab_from_list') }}" class="btn btn-primary">Add Kebab</a>
+                <a href="{{ url_for('select_drink_from_list') }}" class="btn btn-primary">Add Drink</a>
+            </div>
+
+            <br>
+            <br>
+
+            <div class="btn-group btn-group-vertical">
+                <a href="{{ url_for('place_order') }}" class="btn btn-primary">Place Order</a>
+                <a href="{{ url_for('clear_order') }}" class="btn btn-danger">Clear</a>
+            </div>
+
+      </div>
+    </div>
+  </body>
+</html>
+{% endblock %}

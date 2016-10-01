@@ -9,15 +9,20 @@
     <div class="container">
       <div class="starter-template">
         <h1>Pizza</h1>
-        <table class="table table-bordered">
+
+        <table class="table table-bordered table-hover table-responsive">
             <thead>
                 <tr>
                     <th></th>
                     <th>Pizza</th>
                     <th>Toppings</th>
                     <th>Price</th>
-                    {% if session.is_admin %}
+                    {% if session.is_admin and not selecting %}
                         <th><a href="{{ url_for('create_pizza') }}">Add new</a></th>
+                        <th></th>
+                    {% endif %}
+
+                    {% if selecting %}
                         <th></th>
                     {% endif %}
                 </tr>
@@ -29,9 +34,13 @@
                         <td>{{ p.name }}</td>
                         <td>{{ p.toppings_as_string() }}</td>
                         <td>{{ p.price }}</td>
-                        {% if session.is_admin %}
+                        {% if session.is_admin and not selecting %}
                             <td><a href="{{ url_for('edit_pizza', pizza_id=p.id) }}">Edit</a></td>
                             <td><a href="{{ url_for('delete_pizza', pizza_id=p.id) }}">Delete</a></td>
+                        {% endif %}
+
+                        {% if selecting %}
+                            <td><a href="{{ url_for('select_pizza', pizza_id=p.id) }}">Select</td>
                         {% endif %}
                     </tr>
                 {% endfor %}

@@ -1,8 +1,125 @@
 from yuuhpizzakebab import app, admin_required, login_required
 from .models import Order
+from yuuhpizzakebab.pizza.models import Pizza
+from yuuhpizzakebab.kebab.models import Kebab
+from yuuhpizzakebab.drink.models import Drink
 from yuuhpizzakebab.user.database_functions import get_user_by_id
 from flask import render_template, session, redirect, url_for, request, flash
 import datetime
+
+
+@app.route('/new_order', methods=['GET', 'POST'])
+@login_required
+def new_order():
+    pizzas = []
+    kebabs = []
+    drinks = []
+    total_price = 0.0
+
+    if session.get('selected_pizzas'):
+        for pizza_id in session.get('selected_pizzas'):
+            p = Pizza.get_by_id(pizza_id)
+            total_price += float(p.price_without_dollar_sign())
+            pizzas.append(p)
+
+    if session.get('selected_kebabs'):
+        for kebab_id in session['selected_kebabs']:
+            k = Kebab.get_by_id(kebab_id)
+            total_price += float(k.price_without_dollar_sign())
+            kebabs.append(k)
+
+    if session.get('selected_drinks'):
+        for drink_id in session['selected_drinks']:
+            d = Drink.get_by_id(drink_id)
+            total_price += float(d.price_without_dollar_sign())
+            drinks.append(d)
+
+    return render_template('order/create_order.html',
+                           pizzas=pizzas,
+                           kebabs=kebabs,
+                           drinks=drinks,
+                           total_price=total_price)
+
+
+@app.route('/select/pizzas', methods=['GET'])
+@login_required
+def select_pizza_from_list():
+    pizzas = Pizza.get_all()
+
+    return render_template('pizza/pizzas.html', pizzas=pizzas, selecting=True)
+
+
+@app.route('/select/kebabs', methods=['GET'])
+@login_required
+def select_kebab_from_list():
+    kebabs = Kebab.get_all()
+
+    return render_template('kebab/kebabs.html', kebabs=kebabs, selecting=True)
+
+
+@app.route('/select/drinks', methods=['GET'])
+@login_required
+def select_drink_from_list():
+    drinks = Drink.get_all()
+
+    return render_template('drink/drinks.html', drinks=drinks, selecting=True)
+
+
+@app.route('/select/pizza/<int:pizza_id>', methods=['GET'])
+@login_required
+def select_pizza(pizza_id):
+    if not session.get('selected_pizzas'):
+        session['selected_pizzas'] = []
+
+    new_list = session['selected_pizzas']
+    new_list.append(pizza_id)
+    session['selected_pizzas'] = new_list
+
+    return redirect(url_for('new_order'))
+
+
+@app.route('/select/kebab/<int:kebab_id>', methods=['GET'])
+@login_required
+def select_kebab(kebab_id):
+    if not session.get('selected_kebabs'):
+        session['selected_kebabs'] = []
+
+    new_list = session['selected_kebabs']
+    new_list.append(kebab_id)
+    session['selected_kebabs'] = new_list
+
+    return redirect(url_for('new_order'))
+
+
+@app.route('/select/drink/<int:drink_id>', methods=['GET'])
+@login_required
+def select_drink(drink_id):
+    if not session.get('selected_drinks'):
+        session['selected_drinks'] = []
+
+    new_list = session['selected_drinks']
+    new_list.append(drink_id)
+    session['selected_drinks'] = new_list
+
+    return redirect(url_for('new_order'))
+
+
+@app.route('/place_order', methods=['GET'])
+@login_required
+def place_order():
+    # make this
+
+    return redirect(url_for('index'))
+
+
+@app.route('/clear_order', methods=['GET'])
+@login_required
+def clear_order():
+    session.pop('selected_pizzas', None)
+    session.pop('selected_kebabs', None)
+    session.pop('selected_drinks', None)
+
+    return redirect(url_for('new_order'))
 
 
 @app.route('/orders')

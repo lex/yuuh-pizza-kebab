@@ -10,14 +10,18 @@
       <div class="starter-template">
         <h1>Drinks</h1>
 
-        <table class="table table-bordered">
+        <table class="table table-bordered table-hover table-responsive">
             <thead>
                 <tr>
                     <th></th>
                     <th>Drink</th>
                     <th>Price</th>
-                    {% if session.is_admin %}
+                    {% if session.is_admin and not selecting %}
                         <th><a href="{{ url_for('create_drink') }}">Add new</a></th>
+                        <th></th>
+                    {% endif %}
+
+                    {% if selecting %}
                         <th></th>
                     {% endif %}
                 </tr>
@@ -28,9 +32,13 @@
                         <td><img src="{{ d.image_url }}" style="width: 75px; height: 75px;"></td>
                         <td>{{ d.name or 'Nameless drink' }}</td>
                         <td>{{ d.price }}</td>
-                        {% if session.is_admin %}
-                        <td><a href="/drink/edit/{{ d.id }}">Edit</a></td>
-                        <td><a href="/drink/delete/{{ d.id }}">Delete</a></td>
+                        {% if session.is_admin and not selecting %}
+                            <td><a href="{{ url_for('edit_drink', drink_id=d.id) }}">Edit</a></td>
+                            <td><a href="{{ url_for('delete_drink', drink_id=d.id) }}">Delete</a></td>
+                        {% endif %}
+
+                        {% if selecting %}
+                            <td><a href="{{ url_for('select_drink', drink_id=d.id) }}">Select</td>
                         {% endif %}
                     </tr>
                 {% endfor %}
