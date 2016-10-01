@@ -64,11 +64,20 @@ class Drink():
         return get_drink(id)
 
     def save(self):
+        if not self.name:
+            return False
+        if not self.price:
+            return False
+        if not self.image_url:
+            return False
+
         if self.id:
             update_drink(self)
-            return
+            return True
 
         save_drink(self)
+
+        return True
 
     @staticmethod
     def delete_by_id(id):
@@ -77,6 +86,8 @@ class Drink():
     def delete(self):
         if not self.id:
             print 'can\'t delete without id t: drink'
-            return
+            return False
 
         delete_drink(self.id)
+
+        return True

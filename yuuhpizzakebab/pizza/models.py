@@ -118,11 +118,19 @@ class Pizza():
         return get_pizza(id)
 
     def save(self):
+        if not self.name:
+            return False
+        if not self.price:
+            return False
+        if not self.image_url:
+            return False
+
         if self.id:
             update_pizza(self)
-            return
+            return True
 
         save_pizza(self)
+        return True
 
     @staticmethod
     def delete_by_id(id):

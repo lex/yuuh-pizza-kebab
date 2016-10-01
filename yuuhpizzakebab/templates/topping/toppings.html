@@ -9,15 +9,15 @@
     <div class="container">
       <div class="starter-template">
         <h1>Toppings</h1>
-      </div>
+
         <table class="table table-bordered">
             <thead>
             <tr>
                 <th>Topping</th>
                 <th>Price</th>
                 {% if session.is_admin %}
-                <th><a href="/topping/create">Add new</a></th>
-                <th></th>
+                    <th><a href="{{ url_for('create_topping') }}">Add new</a></th>
+                    <th></th>
                 {% endif %}
             </tr>
             </thead>
@@ -27,13 +27,14 @@
                     <td>{{ t.name }}</td>
                     <td>{{ t.price }}</td>
                     {% if session.is_admin %}
-                    <td><a href="/topping/edit/{{ t.id }}">Edit</a></td>
-                    <td><a href="/topping/delete/{{ t.id }}">Delete</a></td>
+                        <td><a href="{{ url_for('edit_topping', topping_id=t.id) }}">Edit</a></td>
+                        <td><a href="{{ url_for('delete_topping', topping_id=t.id) }}">Delete</a></td>
                     {% endif %}
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
+      </div>
     </div>
   </body>
 </html>

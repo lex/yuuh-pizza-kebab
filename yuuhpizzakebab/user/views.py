@@ -1,5 +1,5 @@
 from yuuhpizzakebab import app
-from flask import render_template, session, redirect, url_for, request
+from flask import render_template, session, redirect, url_for, request, flash
 from yuuhpizzakebab.user.database_functions import get_user, create_user
 
 
@@ -28,6 +28,8 @@ def logout():
     session.pop('username', None)
     session.pop('logged_in', None)
     session.pop('is_admin', None)
+
+    flash('Successfully logged out', 'alert-info')
 
     return redirect(url_for('index'))
 

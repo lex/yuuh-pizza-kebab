@@ -9,33 +9,34 @@
     <div class="container">
       <div class="starter-template">
         <h1>Kebab</h1>
-      </div>
         <table class="table table-bordered">
             <thead>
-            <tr>
-                <th></th>
-                <th>Kebab</th>
-                <th>Price</th>
-                {% if session.is_admin %}
-                <th><a href="/kebab/create">Add new</a></th>
-                <th></th>
-                {% endif %}
-            </tr>
-            </thead>
-            <tbody>
-                {% for k in kebabs %}
                 <tr>
-                    <td><img src="{{ k.image_url }}" style="width: 75px; height: 75px;"></td>
-                    <td>{{ k.name }} ({{ k.id }})</td>
-                    <td>{{ k.price }}</td>
+                    <th></th>
+                    <th>Kebab</th>
+                    <th>Price</th>
                     {% if session.is_admin %}
-                    <td><a href="/kebab/edit/{{ k.id }}">Edit</a></td>
-                    <td><a href="/kebab/delete/{{ k.id }}">Delete</a></td>
+                        <th><a href="{{ url_for('create_kebab') }}">Add new</a></th>
+                        <th></th>
                     {% endif %}
                 </tr>
+            </thead>
+
+            <tbody>
+                {% for k in kebabs %}
+                    <tr>
+                        <td><img src="{{ k.image_url }}" style="width: 75px; height: 75px;"></td>
+                        <td>{{ k.name or 'Nameless kebab' }}</td>
+                        <td>{{ k.price }}</td>
+                        {% if session.is_admin %}
+                            <td><a href="{{ url_for('edit_kebab', kebab_id=k.id) }}">Edit</a></td>
+                            <td><a href="{{ url_for('delete_kebab', kebab_id=k.id) }}">Delete</a></td>
+                        {% endif %}
+                    </tr>
                 {% endfor %}
             </tbody>
         </table>
+      </div>
     </div>
   </body>
 </html>

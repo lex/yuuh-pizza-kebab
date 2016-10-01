@@ -21,7 +21,7 @@ def create_topping():
 
         return redirect(url_for('list_toppings'))
 
-    return render_template('topping/create_topping.html')
+    return render_template('topping/edit_topping.html')
 
 
 @app.route('/topping/edit/<int:topping_id>', methods=['GET', 'POST'])
