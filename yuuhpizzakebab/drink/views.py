@@ -5,7 +5,9 @@ from flask import render_template, session, redirect, url_for, request, flash
 
 @app.route('/drinks')
 def list_drinks():
-    return render_template('drink/drinks.html', drinks=Drink.get_all())
+    return render_template('drink/drinks.html',
+                           drinks=Drink.get_all(),
+                           selecting=request.args.get('selecting'))
 
 
 @app.route('/drink/create', methods=['GET', 'POST'])

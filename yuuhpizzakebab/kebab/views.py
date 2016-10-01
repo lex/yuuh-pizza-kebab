@@ -5,7 +5,9 @@ from flask import render_template, session, redirect, url_for, request, flash
 
 @app.route('/kebabs')
 def list_kebabs():
-    return render_template('kebab/kebabs.html', kebabs=Kebab.get_all())
+    return render_template('kebab/kebabs.html',
+                           kebabs=Kebab.get_all(),
+                           selecting=request.args.get('selecting'))
 
 
 @app.route('/kebab/create', methods=['GET', 'POST'])

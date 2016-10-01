@@ -44,25 +44,19 @@ def new_order():
 @app.route('/select/pizzas', methods=['GET'])
 @login_required
 def select_pizza_from_list():
-    pizzas = Pizza.get_all()
-
-    return render_template('pizza/pizzas.html', pizzas=pizzas, selecting=True)
+    return redirect(url_for('list_pizzas', selecting=True))
 
 
 @app.route('/select/kebabs', methods=['GET'])
 @login_required
 def select_kebab_from_list():
-    kebabs = Kebab.get_all()
-
-    return render_template('kebab/kebabs.html', kebabs=kebabs, selecting=True)
+    return redirect(url_for('list_kebabs', selecting=True))
 
 
 @app.route('/select/drinks', methods=['GET'])
 @login_required
 def select_drink_from_list():
-    drinks = Drink.get_all()
-
-    return render_template('drink/drinks.html', drinks=drinks, selecting=True)
+    return redirect(url_for('list_drinks', selecting=True))
 
 
 @app.route('/select/pizza/<int:pizza_id>', methods=['GET'])
