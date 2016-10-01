@@ -12,9 +12,11 @@ def login():
         user = get_user(username, password)
 
         if not user:
+            flash('No such username and/or password', 'alert-danger')
             return redirect(url_for('login'))
 
         session['username'] = user.username
+        session['user_id'] = user.id
         session['logged_in'] = True
         session['is_admin'] = user.is_admin
 
@@ -26,6 +28,7 @@ def login():
 @app.route('/logout')
 def logout():
     session.pop('username', None)
+    session.pop('user_id', None)
     session.pop('logged_in', None)
     session.pop('is_admin', None)
 
@@ -46,6 +49,7 @@ def create_account():
             return redirect(url_for('login'))
 
         session['username'] = user.username
+        session['user_id'] = user.id
         session['logged_in'] = True
         session['is_admin'] = user.is_admin
 

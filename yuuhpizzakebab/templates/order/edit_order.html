@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block js %}
+{% endblock %}
+
+{% block main %}
+<html lang="en">
+  <body>
+    <div class="container">
+      <div class="starter-template">
+        <h1>New Order</h1>
+
+        <div>
+            <form action="" method="post">
+                <div class="form-group">
+                    <label>Address to Deliver to</label>
+                    <input type="text" class="form-control" name="delivery_address" value="{{ order.delivery_address if delivery }}">
+                </div>
+
+                <div class="form-group">
+                    <label>In how many hours would you like the order to be delivered?</label>
+                    <input type="number" class="form-control" name="delivery_at" value="{{ order.delivery_at if delivery }}">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Save</button>
+            </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+{% endblock %}

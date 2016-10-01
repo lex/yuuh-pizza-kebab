@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block js %}
+{% endblock %}
+
+{% block main %}
+<html lang="en">
+  <body>
+    <div class="container">
+      <div class="starter-template">
+        <h1>{{ 'Order {} at {} from {}'.format(order.id, order.ordered_at, order.ordered_by.username) }}</h1>
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in order.pizzas %}
+                    <tr>
+                        <td>{{ p.name }}</td>
+                        <td>{{ p.price }}</td>
+                    </tr>
+                {% endfor %}
+
+                {% for k in order.kebabs %}
+                    <tr>
+                        <td>{{ k.name }}</td>
+                        <td>{{ k.price }}</td>
+                    </tr>
+                {% endfor %}
+
+                {% for d in order.drinks %}
+                    <tr>
+                        <td>{{ d.name }}</td>
+                        <td>{{ d.price }}</td>
+                    </tr>
+                {% endfor %}
+
+                <tr>
+                    <td></td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td><strong>Total</strong></td>
+                    <td>{{ '${}'.format(order.total_price()) }}</td>
+                </tr>
+            </tbody>
+        </table>
+      </div>
+    </div>
+  </body>
+</html>
+{% endblock %}

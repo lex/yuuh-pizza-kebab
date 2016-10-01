@@ -9,5 +9,4 @@ drop table if exists YPKOrder cascade;
 drop table if exists DeliverySummary cascade;
 drop table if exists YPKOrder_Pizza cascade;
 drop table if exists YPKOrder_Kebab cascade;
-drop table if exists YPKOrder_Pizza_Extra_Topping cascade;
 drop table if exists YPKOrder_Drink cascade;

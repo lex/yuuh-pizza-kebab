@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block js %}
+{% endblock %}
+
+{% block main %}
+<html lang="en">
+  <body>
+    <div class="container">
+      <div class="starter-template">
+        <h1>Orders</h1>
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Ordered By</th>
+                    <th>Ordered At</th>
+                    <th>Deliver To</th>
+                    <th>Total Price</th>
+                    {% if session.is_admin %}
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for o in orders %}
+                    <tr>
+                        <td>{{ o.ordered_by.username }}</td>
+                        <td>{{ o.ordered_at }}</td>
+                        <td>{{ o.delivery_address }}</td>
+                        <td>{{ '${}'.format(o.total_price()) }}</td>
+                        <td><a href="{{ url_for('order_details', order_id=o.id) }}">Details</a></td>
+                        <td><a href="{{ url_for('add_discount', order_id=o.id) }}">Add Discount</a></td>
+                        <td><a href="{{ url_for('reject_order', order_id=o.id) }}">Reject</a></td>
+                        <td><a href="{{ url_for('mark_order_as_delivered', order_id=o.id) }}">Mark As Delivered</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+      </div>
+    </div>
+  </body>
+</html>
+{% endblock %}
