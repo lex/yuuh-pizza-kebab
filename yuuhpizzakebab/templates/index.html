@@ -7,9 +7,15 @@
 <html lang="en">
   <body>
     <div class="container">
-      <div class="starter-template">
+      <div class="yuuh-pizza-kebab">
         <h1>Yuuh Pizza Kebab</h1>
-        <p class="lead">Welcome to Yuuh Pizza Kebab.<br>Feel free to browse our <a href="/pizzas">pizzas</a> and <a href="/kebabs">kebabs</a>.</p>
+        <p class="lead">
+            Welcome to Yuuh Pizza Kebab.
+            <br>
+            Feel free to browse our <a href="{{ url_for('list_pizzas') }}">pizzas</a> and <a href="{{ url_for('list_kebabs') }}">kebabs</a>.
+            <br>
+            Did we tell you about our <a href="{{ url_for('list_drinks') }}">drinks</a> yet?
+        </p>
       </div>
     </div>
   </body>

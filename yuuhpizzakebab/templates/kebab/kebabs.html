@@ -7,7 +7,7 @@
 <html lang="en">
   <body>
     <div class="container">
-      <div class="starter-template">
+      <div class="yuuh-pizza-kebab">
         <h1>Kebab</h1>
 
         <table class="table table-bordered table-hover table-responsive">
@@ -30,8 +30,8 @@
             <tbody>
                 {% for k in kebabs %}
                     <tr>
-                        <td><img src="{{ k.image_url }}" style="width: 75px; height: 75px;"></td>
-                        <td>{{ k.name or 'Nameless kebab' }}</td>
+                        <td><img src="{{ k.image_url }}" class="img-responsive img-rounded"></td>
+                        <td>{{ k.name }}</td>
                         <td>{{ k.price }}</td>
                         {% if session.is_admin and not selecting %}
                             <td><a href="{{ url_for('edit_kebab', kebab_id=k.id) }}">Edit</a></td>

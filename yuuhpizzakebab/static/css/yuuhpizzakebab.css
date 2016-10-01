@@ -2,11 +2,19 @@ body {
   padding-top: 50px;
 }
 
-.starter-template {
+.yuuh-pizza-kebab {
   padding: 40px 15px;
   text-align: center;
 }
 
 .table td {
     text-align: left;
+}
+
+td:nth-child(1) {
+    width: 20%;
+}
+
+.img-responsive {
+    width: 100%;
 }

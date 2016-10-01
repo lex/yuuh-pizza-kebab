@@ -7,7 +7,7 @@
 <html lang="en">
   <body>
     <div class="container">
-      <div class="starter-template">
+      <div class="yuuh-pizza-kebab">
         <h1>Pizza</h1>
 
         <table class="table table-bordered table-hover table-responsive">
@@ -30,7 +30,7 @@
             <tbody>
                 {% for p in pizzas %}
                     <tr>
-                        <td><img src="{{ p.image_url }}" style="width: 75px; height: 75px;"></td>
+                        <td><img src="{{ p.image_url }}" class="img-responsive img-rounded"></td>
                         <td>{{ p.name }}</td>
                         <td>{{ p.toppings_as_string() }}</td>
                         <td>{{ p.price }}</td>
