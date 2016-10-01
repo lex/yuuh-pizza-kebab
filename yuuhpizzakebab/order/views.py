@@ -41,22 +41,14 @@ def new_order():
                            total_price=total_price)
 
 
-@app.route('/select/pizzas', methods=['GET'])
+@app.route('/select/<string:item_type>', methods=['GET'])
 @login_required
-def select_pizza_from_list():
-    return redirect(url_for('list_pizzas', selecting=True))
+def select_item(item_type):
+    if item_type not in ['pizza', 'kebab', 'drink']:
+        flash('Unknown item type', 'alert-warning')
+        return redirect(url_for('new_order'))
 
-
-@app.route('/select/kebabs', methods=['GET'])
-@login_required
-def select_kebab_from_list():
-    return redirect(url_for('list_kebabs', selecting=True))
-
-
-@app.route('/select/drinks', methods=['GET'])
-@login_required
-def select_drink_from_list():
-    return redirect(url_for('list_drinks', selecting=True))
+    return redirect(url_for('list_{}s'.format(item_type), selecting=True))
 
 
 @app.route('/select/pizza/<int:pizza_id>', methods=['GET'])
@@ -116,13 +108,13 @@ def clear_order():
     return redirect(url_for('new_order'))
 
 
-@app.route('/orders')
+@app.route('/orders', methods=['GET'])
 @admin_required
 def list_orders():
     return render_template('order/orders.html', orders=Order.get_all())
 
 
-@app.route('/orders/active')
+@app.route('/orders/active', methods=['GET'])
 @admin_required
 def list_active_orders():
     return render_template('order/orders.html', orders=Order.get_all_active())
@@ -157,54 +149,13 @@ def mark_order_as_delivered(order_id):
     return redirect(url_for('list_orders'))
 
 
-@app.route('/order/create', methods=['GET', 'POST'])
-@admin_required
-def create_order():
-    if request.method == 'POST':
-        delivery_address = request.form['delivery_address']
-        delivery_at = int(request.form['delivery_at'])
-        delivery_at = datetime.datetime.utcnow() + datetime.timedelta(
-            hours=delivery_at)
-
-        user_id = session.get('user_id')
-        user = get_user_by_id(user_id)
-
-        o = Order(None, user, None, delivery_address, delivery_at, False,
-                  False, False)
-        success = o.save()
-
-        if not success:
-            flash('Some fields need to be filled', 'alert-danger')
-            return render_template('order/edit_order.html', order=o)
-
-        flash('Created order', 'alert-success')
-        return redirect(url_for('list_orders'))
-
-    return render_template('order/edit_order.html')
-
-
 @app.route('/order/edit/<int:order_id>', methods=['GET', 'POST'])
 @admin_required
 def edit_order(order_id):
-    if request.method == 'POST':
-        name = request.form['order_name']
-        price = request.form['order_price']
-        image_url = request.form['order_image_url']
-
-        o = Order(order_id, name, price, image_url)
-        o.save()
-
-        return redirect(url_for('list_orders'))
-
-    order = Order.get_by_id(order_id)
-
-    if not order:
-        return redirect(url_for('list_orders'))
-
     return render_template('order/edit_order.html', order=order)
 
 
-@app.route('/order/delete/<int:order_id>')
+@app.route('/order/delete/<int:order_id>', methods=['GET'])
 @admin_required
 def delete_order(order_id):
     Order.delete_by_id(order_id)

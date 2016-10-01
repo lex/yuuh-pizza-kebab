@@ -58,9 +58,9 @@
 
 
             <div class="btn-group btn-group-justified">
-                <a href="{{ url_for('select_pizza_from_list') }}" class="btn btn-primary">Add Pizza</a>
-                <a href="{{ url_for('select_kebab_from_list') }}" class="btn btn-primary">Add Kebab</a>
-                <a href="{{ url_for('select_drink_from_list') }}" class="btn btn-primary">Add Drink</a>
+                <a href="{{ url_for('select_item', item_type='pizza') }}" class="btn btn-primary">Add Pizza</a>
+                <a href="{{ url_for('select_item', item_type='kebab') }}" class="btn btn-primary">Add Kebab</a>
+                <a href="{{ url_for('select_item', item_type='drink') }}" class="btn btn-primary">Add Drink</a>
             </div>
 
             <br>

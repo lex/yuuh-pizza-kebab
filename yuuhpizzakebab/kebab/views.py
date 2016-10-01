@@ -3,14 +3,14 @@ from .models import Kebab
 from flask import render_template, session, redirect, url_for, request, flash
 
 
-@app.route('/kebabs')
+@app.route('/kebabs', methods=['GET'])
 def list_kebabs():
     return render_template('kebab/kebabs.html',
                            kebabs=Kebab.get_all(),
                            selecting=request.args.get('selecting'))
 
 
-@app.route('/kebab/create', methods=['GET', 'POST'])
+@app.route('/kebab/create', methods=['GET'])
 @admin_required
 def create_kebab():
     if request.method == 'POST':
@@ -57,7 +57,7 @@ def edit_kebab(kebab_id):
     return render_template('kebab/edit_kebab.html', kebab=kebab)
 
 
-@app.route('/kebab/delete/<int:kebab_id>')
+@app.route('/kebab/delete/<int:kebab_id>', methods=['GET'])
 @admin_required
 def delete_kebab(kebab_id):
     Kebab.delete_by_id(kebab_id)
