@@ -9,33 +9,28 @@
     <div class="container">
       <div class="yuuh-pizza-kebab">
         <h1>Toppings</h1>
+        <br>
 
-        <table class="table table-bordered table-hover table-responsive">
-            <thead>
-            <tr>
-                <th>Topping</th>
-                <th>Price</th>
-                {% if session.is_admin %}
-                    <th><a href="{{ url_for('create_topping') }}">Add new</a></th>
-                    <th></th>
-                {% endif %}
-            </tr>
-            </thead>
-            <tbody>
+            <div class="row">
                 {% for t in toppings %}
-                <tr>
-                    <td>{{ t.name }}</td>
-                    <td>{{ t.price }}</td>
-                    {% if session.is_admin %}
-                        <td><a href="{{ url_for('edit_topping', topping_id=t.id) }}">Edit</a></td>
-                        <td><a href="{{ url_for('delete_topping', topping_id=t.id) }}">Delete</a></td>
-                    {% endif %}
-                </tr>
+                    <div class="col-sm-6 col-md-4">
+                        <div class="thumbnail">
+                        <div class="caption">
+                            <h3>{{ t.name }}</h3>
+                            <h4>{{ t.price }}</h4>
+                            <p>
+                                <div class="btn-group btn-group-justified">
+                                    <a href="{{ url_for('edit_topping', topping_id=t.id) }}" class="btn btn-primary" role="button">Edit</a>
+                                    <a href="{{ url_for('delete_topping', topping_id=t.id) }}" class="btn btn-primary" role="button">Delete</a>
+                                </div>
+                            </p>
+                        </div>
+                        </div>
+                    </div>
                 {% endfor %}
-            </tbody>
-        </table>
+            </div>
       </div>
-    </div>
+      </div>
   </body>
 </html>
 {% endblock %}

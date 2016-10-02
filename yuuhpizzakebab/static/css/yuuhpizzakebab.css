@@ -18,3 +18,8 @@ td:nth-child(1) {
 .img-responsive {
     width: 100%;
 }
+
+.thumbnail img {
+    min-height: 50px;
+    height: 250px;
+}

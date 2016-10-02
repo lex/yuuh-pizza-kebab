@@ -10,40 +10,33 @@
       <div class="yuuh-pizza-kebab">
         <h1>Kebab</h1>
 
-        <table class="table table-bordered table-hover table-responsive">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>Kebab</th>
-                    <th>Price</th>
-                    {% if session.is_admin and not selecting %}
-                        <th><a href="{{ url_for('create_kebab') }}">Add new</a></th>
-                        <th></th>
-                    {% endif %}
+            <div class="container">
+                <div class="row">
+                    {% for k in kebabs %}
+                        <div class="col-sm-6 col-md-4">
+                            <div class="thumbnail">
+                            <img src="{{ k.image_url }}" alt="{{ k.name }}" class="img-rounded">
+                            <div class="caption">
+                                <h3>{{ k.name }}</h3>
+                                <br>
+                                <h4>{{ k.price }}</h4>
+                                <br>
+                                <p>
+                                    <div class="btn-group btn-group-justified">
+                                        <a href="{{ url_for('select_kebab', kebab_id=k.id) }}" class="btn btn-primary" role="button">Order</a>
 
-                    {% if selecting %}
-                        <th></th>
-                    {% endif %}
-                </tr>
-            </thead>
-
-            <tbody>
-                {% for k in kebabs %}
-                    <tr>
-                        <td><img src="{{ k.image_url }}" class="img-responsive img-rounded"></td>
-                        <td>{{ k.name }}</td>
-                        <td>{{ k.price }}</td>
-                        {% if session.is_admin and not selecting %}
-                            <td><a href="{{ url_for('edit_kebab', kebab_id=k.id) }}">Edit</a></td>
-                            <td><a href="{{ url_for('delete_kebab', kebab_id=k.id) }}">Delete</a></td>
-                        {% endif %}
-                        {% if selecting %}
-                            <td><a href="{{ url_for('select_kebab', kebab_id=k.id) }}">Select</td>
-                        {% endif %}
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                                        {% if session.is_admin and not selecting %}
+                                            <a href="{{ url_for('edit_kebab', kebab_id=k.id) }}" class="btn btn-primary" role="button">Edit</a>
+                                            <a href="{{ url_for('delete_kebab', kebab_id=k.id) }}" class="btn btn-primary" role="button">Delete</a>
+                                        {% endif %}
+                                    </div>
+                                </p>
+                            </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
       </div>
     </div>
   </body>
