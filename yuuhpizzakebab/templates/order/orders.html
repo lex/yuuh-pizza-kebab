@@ -31,7 +31,7 @@
                         <td>{{ o.ordered_by.username }}</td>
                         <td>{{ o.ordered_at }}</td>
                         <td>{{ o.delivery_address }}</td>
-                        <td>{{ '${}'.format(o.total_price()) }}</td>
+                        <td>{{ '${}'.format('%0.2f' % o.total_price()) }}</td>
                         <td><a href="{{ url_for('order_details', order_id=o.id) }}">Details</a></td>
                         <td><a href="{{ url_for('add_discount', order_id=o.id) }}">Add Discount</a></td>
                         <td><a href="{{ url_for('reject_order', order_id=o.id) }}">Reject</a></td>

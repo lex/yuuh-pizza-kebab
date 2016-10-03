@@ -8,31 +8,66 @@ from flask import render_template, session, redirect, url_for, request, flash
 import datetime
 
 
-@app.route('/new_order', methods=['GET', 'POST'])
-@login_required
-def new_order():
+def get_pizzas_from_session():
     pizzas = []
-    kebabs = []
-    drinks = []
-    total_price = 0.0
 
     if session.get('selected_pizzas'):
         for pizza_id in session.get('selected_pizzas'):
             p = Pizza.get_by_id(pizza_id)
-            total_price += float(p.price_without_dollar_sign())
             pizzas.append(p)
+
+    return pizzas
+
+
+def get_kebabs_from_session():
+    kebabs = []
 
     if session.get('selected_kebabs'):
         for kebab_id in session['selected_kebabs']:
             k = Kebab.get_by_id(kebab_id)
-            total_price += float(k.price_without_dollar_sign())
             kebabs.append(k)
+
+    return kebabs
+
+
+def get_drinks_from_session():
+    drinks = []
 
     if session.get('selected_drinks'):
         for drink_id in session['selected_drinks']:
             d = Drink.get_by_id(drink_id)
-            total_price += float(d.price_without_dollar_sign())
             drinks.append(d)
+
+    return drinks
+
+
+def get_total_price_of_items(pizzas, kebabs, drinks):
+    total = 0.0
+
+    for p in pizzas:
+        total += float(p.price_without_dollar_sign())
+
+    for k in kebabs:
+        total += float(k.price_without_dollar_sign())
+
+    for d in drinks:
+        total += float(d.price_without_dollar_sign())
+
+    return total
+
+def clear_session():
+    session.pop('selected_pizzas', None)
+    session.pop('selected_kebabs', None)
+    session.pop('selected_drinks', None)
+
+
+@app.route('/new_order', methods=['GET'])
+@login_required
+def new_order():
+    pizzas = get_pizzas_from_session()
+    kebabs = get_kebabs_from_session()
+    drinks = get_drinks_from_session()
+    total_price = get_total_price_of_items(pizzas, kebabs, drinks)
 
     return render_template('order/create_order.html',
                            pizzas=pizzas,
@@ -93,18 +128,41 @@ def select_drink(drink_id):
 @app.route('/place_order', methods=['GET'])
 @login_required
 def place_order():
-    # make this
+    pizzas = get_pizzas_from_session()
+    kebabs = get_kebabs_from_session()
+    drinks = get_drinks_from_session()
+    total_price = get_total_price_of_items(pizzas, kebabs, drinks)
 
-    return redirect(url_for('index'))
+    user_id = session['user_id']
+    user = get_user_by_id(user_id)
+    ordered_at = datetime.datetime.utcnow()
+    delivery_address = 'some place somewhere'
+    delivery_at = datetime.datetime.utcnow() + datetime.timedelta(hours=3)
+    lunch_offer_active = False
+
+    o = Order(None, user, ordered_at, delivery_address, delivery_at, False, False, lunch_offer_active)
+    o.save()
+
+    for p in pizzas:
+        o.add_pizza(p)
+
+    for k in kebabs:
+        o.add_kebab(k)
+
+    for d in drinks:
+        o.add_drink(d)
+
+    clear_session()
+
+    flash('Order placed', 'alert-success')
+
+    return redirect(url_for('list_orders'))
 
 
 @app.route('/clear_order', methods=['GET'])
 @login_required
 def clear_order():
-    session.pop('selected_pizzas', None)
-    session.pop('selected_kebabs', None)
-    session.pop('selected_drinks', None)
-
+    clear_session()
     return redirect(url_for('new_order'))
 
 

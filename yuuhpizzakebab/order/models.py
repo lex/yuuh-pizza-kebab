@@ -79,6 +79,18 @@ def get_drinks_for_order(order_id):
 
     return drinks
 
+def add_pizza_to_order(order_id, pizza_id):
+    t = text('insert into YPKOrder_Pizza (order_id, pizza_id) values (:order_id, :pizza_id)')
+    db.engine.execute(t, order_id=order_id, pizza_id=pizza_id)
+
+def add_kebab_to_order(order_id, kebab_id):
+    t = text('insert into YPKOrder_Kebab (order_id, kebab_id) values (:order_id, :kebab_id)')
+    db.engine.execute(t, order_id=order_id, kebab_id=kebab_id)
+
+def add_drink_to_order(order_id, drink_id):
+    t = text('insert into YPKOrder_Drink (order_id, drink_id) values (:order_id, :drink_id)')
+    db.engine.execute(t, order_id=order_id, drink_id=drink_id)
+
 
 def delete_order(id):
     t = text('delete from YPKOrder where id = :order_id')
@@ -89,12 +101,16 @@ def save_order(order):
     ordered_by_id = order.ordered_by.id
 
     t = text(
-        'insert into YPKOrder (ordered_by, delivery_address, delivery_at, lunch_offer_active_when_ordered) values (:ordered_by, :delivery_address, :delivery_at, :lunch_offer_active_when_ordered)')
-    db.engine.execute(t,
+        'insert into YPKOrder (ordered_by, delivery_address, delivery_at, lunch_offer_active_when_ordered) values (:ordered_by, :delivery_address, :delivery_at, :lunch_offer_active_when_ordered) returning id')
+    result = db.engine.execute(t,
                       ordered_by=ordered_by_id,
                       delivery_address=order.delivery_address,
                       delivery_at=order.delivery_at,
                       lunch_offer_active_when_ordered=order.lunch_offer_active)
+
+    for r in result:
+        order.id = int(r[0])
+        return
 
 
 def update_order(order):
@@ -169,3 +185,25 @@ class Order():
         delete_order(self.id)
 
         return True
+
+    def add_kebab(self, kebab):
+        if not self.id:
+            print('can\'t add kebab without own id')
+
+        add_kebab_to_order(self.id, kebab.id)
+
+    def add_pizza(self, pizza):
+        if not self.id:
+            print('can\'t add pizza without own id')
+
+        add_pizza_to_order(self.id, pizza.id)
+
+    def add_drink(self, drink):
+        if not self.id:
+            print('can\'t add drink without own id')
+
+        add_drink_to_order(self.id, drink.id)
+
+
+
+

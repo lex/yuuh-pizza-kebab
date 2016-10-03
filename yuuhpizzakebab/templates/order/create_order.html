@@ -50,7 +50,7 @@
                     <tr>
                         <td><strong>Total</strong></td>
                         <td></td>
-                        <td><strong>{{ '${}'.format(total_price) }}</strong></td>
+                        <td><strong>{{ '${}'.format('%0.2f' % total_price) }}</strong></td>
                         <td></td>
                     </tr>
                 </tbody>
@@ -61,8 +61,8 @@
             <br>
 
             <div class="btn-group btn-group-vertical">
-                <a href="{{ url_for('place_order') }}" class="btn btn-primary">Place Order</a>
-                <a href="{{ url_for('clear_order') }}" class="btn btn-danger">Clear</a>
+                <a href="{{ url_for('place_order') }}" class="btn btn-primary {{ 'disabled' if not (pizzas or kebabs or drinks) }}">Place Order</a>
+                <a href="{{ url_for('clear_order') }}" class="btn btn-danger {{ 'disabled' if not (pizzas or kebabs or drinks) }}">Clear</a>
             </div>
 
       </div>

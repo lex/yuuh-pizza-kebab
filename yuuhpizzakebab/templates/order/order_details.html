@@ -46,7 +46,7 @@
 
                 <tr>
                     <td><strong>Total</strong></td>
-                    <td>{{ '${}'.format(order.total_price()) }}</td>
+                    <td>{{ '${}'.format('%0.2f' % order.total_price()) }}</td>
                 </tr>
             </tbody>
         </table>
