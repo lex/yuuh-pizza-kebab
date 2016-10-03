@@ -9,34 +9,39 @@
     <div class="container">
       <div class="yuuh-pizza-kebab">
         <h1>{{ pizza.name if pizza else 'New Pizza' }}</h1>
-      </div>
 
-      <div>
-        <form action="" method="post">
+        <form action="" method="post" class="form-horizontal">
             <div class="form-group">
-                <label>Pizza</label>
-                <input type="text" class="form-control" name="pizza_name" value="{{ pizza.name if pizza }}">
+                <label class="control-label col-sm-2" for="pizza_name">Pizza:</label>
+                <div class="col-sm-10">
+                <input type="text" class="form-control" id="pizza_name" name="pizza_name" value="{{ pizza.name if pizza }}">
+                </div>
             </div>
 
             <div class="form-group">
-                <label>Price</label>
-                <input type="number" class="form-control" name="pizza_price" value="{{ pizza.price_without_dollar_sign() if pizza }}">
+                <label class="control-label col-sm-2" for="pizza_price">Price:</label>
+                <div class="col-sm-10">
+                <input type="number" class="form-control" id="pizza_price" name="pizza_price" value="{{ pizza.price_without_dollar_sign() if pizza }}">
+                </div>
             </div>
 
             <div class="form-group">
-                <label>Image URL</label>
-                <input type="url" class="form-control" name="pizza_image_url" value="{{ pizza.image_url if pizza }}">
+                <label class="control-label col-sm-2" for="pizza_image_url">Image URL:</label>
+                <div class="col-sm-10">
+                <input type="url" class="form-control" id="pizza_image_url" name="pizza_image_url" value="{{ pizza.image_url if pizza }}">
+                </div>
             </div>
 
             <div class="form-group">
-                <label>Toppings</label>
-                <br>
-
+                <label class="control-label col-sm-2">Toppings</label>
+                <div class="checkbox">
                 {% for t in available_toppings %}
-                    <input id="{{ t.id }}" type="checkbox" name="toppings" value="{{ t.id }}" {{ 'checked' if pizza and pizza.has_topping(t.id) }}/>
-                    <label for="{{ t.id }}">{{ t.name }}</label>
-                    <br />
+                    <label>
+                        <input id="{{ t.id }}" type="checkbox" id="{{ t.id }}" name="toppings" value="{{ t.id }}" {{ 'checked' if pizza and pizza.has_topping(t.id) }}/> {{ t.name }}
+                    </label>
                 {% endfor %}
+
+                </div>
             </div>
             <button type="submit" class="btn btn-primary">Save</button>
         </form>

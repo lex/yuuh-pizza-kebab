@@ -10,6 +10,16 @@
       <div class="yuuh-pizza-kebab">
         <h1>Pizza</h1>
         <br>
+
+        {% if session.is_admin %}
+        <div class="row">
+            <div class="col-sm-12">
+                <a href="{{ url_for('create_pizza') }}" class="btn btn-primary" role="button">Add New</a>
+            </div>
+        </div>
+        <br>
+        {% endif %}
+
         <div class="row">
             {% for p in pizzas %}
                 <div class="col-sm-6 col-md-4">

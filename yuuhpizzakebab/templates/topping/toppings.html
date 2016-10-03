@@ -11,24 +11,31 @@
         <h1>Toppings</h1>
         <br>
 
-            <div class="row">
-                {% for t in toppings %}
-                    <div class="col-sm-6 col-md-4">
-                        <div class="thumbnail">
-                        <div class="caption">
-                            <h3>{{ t.name }}</h3>
-                            <h4>{{ t.price }}</h4>
-                            <p>
-                                <div class="btn-group btn-group-justified">
-                                    <a href="{{ url_for('edit_topping', topping_id=t.id) }}" class="btn btn-primary" role="button">Edit</a>
-                                    <a href="{{ url_for('delete_topping', topping_id=t.id) }}" class="btn btn-primary" role="button">Delete</a>
-                                </div>
-                            </p>
-                        </div>
-                        </div>
-                    </div>
-                {% endfor %}
+        <div class="row">
+            <div class="col-sm-12">
+                <a href="{{ url_for('create_drink') }}" class="btn btn-primary" role="button">Add New</a>
             </div>
+        </div>
+        <br>
+
+        <div class="row">
+            {% for t in toppings %}
+                <div class="col-sm-6 col-md-4">
+                    <div class="thumbnail">
+                    <div class="caption">
+                        <h3>{{ t.name }}</h3>
+                        <h4>{{ t.price }}</h4>
+                        <p>
+                            <div class="btn-group btn-group-justified">
+                                <a href="{{ url_for('edit_topping', topping_id=t.id) }}" class="btn btn-primary" role="button">Edit</a>
+                                <a href="{{ url_for('delete_topping', topping_id=t.id) }}" class="btn btn-primary" role="button">Delete</a>
+                            </div>
+                        </p>
+                    </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
       </div>
       </div>
   </body>
