@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block js %}
+{% endblock %}
+
+{% block main %}
+<html lang="en">
+  <body>
+    <div class="container">
+      <div class="yuuh-pizza-kebab">
+        <h1>Delivery Information</h1>
+
+        <div class="row">
+            <form action="" method="post">
+                <div class="form-group">
+                    <label>Customer Found</label>
+                    <input type="checkbox" class="form-control" name="customer_found">
+                </div>
+
+                <div class="form-group">
+                    <label>Had Problems</label>
+                    <input type="checkbox" class="form-control" name="had_problems">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Mark as Delivered</button>
+            </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+{% endblock %}

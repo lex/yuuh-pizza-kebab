@@ -55,6 +55,11 @@ def get_total_price_of_items(pizzas, kebabs, drinks):
 
     return total
 
+
+def get_delivery_address():
+    return session.get('delivery_address')
+
+
 def clear_session():
     session.pop('selected_pizzas', None)
     session.pop('selected_kebabs', None)
@@ -68,12 +73,14 @@ def new_order():
     kebabs = get_kebabs_from_session()
     drinks = get_drinks_from_session()
     total_price = get_total_price_of_items(pizzas, kebabs, drinks)
+    delivery_address = get_delivery_address()
 
     return render_template('order/create_order.html',
                            pizzas=pizzas,
                            kebabs=kebabs,
                            drinks=drinks,
-                           total_price=total_price)
+                           total_price=total_price,
+                           delivery_address=delivery_address)
 
 
 @app.route('/select/<string:item_type>', methods=['GET'])
@@ -136,11 +143,12 @@ def place_order():
     user_id = session['user_id']
     user = get_user_by_id(user_id)
     ordered_at = datetime.datetime.utcnow()
-    delivery_address = 'some place somewhere'
+    delivery_address = get_delivery_address()
     delivery_at = datetime.datetime.utcnow() + datetime.timedelta(hours=3)
     lunch_offer_active = False
 
-    o = Order(None, user, ordered_at, delivery_address, delivery_at, False, False, lunch_offer_active)
+    o = Order(None, user, ordered_at, delivery_address, delivery_at, False,
+              False, lunch_offer_active)
     o.save()
 
     for p in pizzas:
@@ -196,15 +204,24 @@ def add_discount(order_id):
 @app.route('/order/reject/<int:order_id>', methods=['GET'])
 @admin_required
 def reject_order(order_id):
-    flash('Not implemented yet', 'alert-info')
+    o = Order.get_by_id(order_id)
+    o.mark_as_rejected()
     return redirect(url_for('list_orders'))
 
 
-@app.route('/order/deliver/<int:order_id>', methods=['GET'])
+@app.route('/order/deliver/<int:order_id>', methods=['GET', 'POST'])
 @admin_required
 def mark_order_as_delivered(order_id):
-    flash('Not implemented yet', 'alert-info')
-    return redirect(url_for('list_orders'))
+    if request.method == 'POST':
+        o = Order.get_by_id(order_id)
+        customer_found = request.form['customer_found']
+        had_problems = request.form['had_problems']
+
+        o.mark_as_delivered(customer_found, had_problems)
+
+        return redirect(url_for('list_orders'))
+
+    return render_template('order/deliver_order.html')
 
 
 @app.route('/order/edit/<int:order_id>', methods=['GET', 'POST'])
@@ -219,3 +236,24 @@ def delete_order(order_id):
     Order.delete_by_id(order_id)
 
     return redirect(url_for('list_orders'))
+
+
+@app.route('/order/remove/<string:item_type>/<int:item_id>', methods=['GET'])
+@login_required
+def remove_item_from_order(item_type, item_id):
+    session_key = 'selected_{}s'.format(item_type)
+    new_list = session[session_key]
+    new_list.remove(item_id)
+    session[session_key] = new_list
+
+    return redirect(url_for('new_order'))
+
+
+@app.route('/order/set_delivery_address', methods=['POST'])
+@login_required
+def set_delivery_address():
+    delivery_address = request.form['delivery_address']
+
+    session['delivery_address'] = delivery_address
+
+    return redirect(url_for('new_order'))

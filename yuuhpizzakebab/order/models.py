@@ -27,8 +27,10 @@ def get_order(id):
     for r in order_results:
         user_id = int(r[1])
         user = get_user_by_id(user_id)
+        delivery_summary = get_delivery_summary_for_order(id)
 
-        order = Order(r[0], user, r[2], r[5], r[6], r[7], r[8], r[9])
+        order = Order(r[0], user, r[2], r[5], r[6], r[7], r[8], r[9],
+                      delivery_summary)
 
         pizzas = get_pizzas_for_order(id)
         kebabs = get_kebabs_for_order(id)
@@ -39,6 +41,37 @@ def get_order(id):
         order.drinks = drinks
 
         return order
+
+
+def get_delivery_summary_for_order(order_id):
+    t = text('select * from DeliverySummary where order_id = :order_id')
+    delivery_results = db.engine.execute(t, order_id=order_id)
+
+    if not delivery_results:
+        return None
+
+    for r in delivery_results:
+        id = int(r[0])
+        customer_found = r[1]
+        delivered_at = r[2]
+        had_problems = r[3]
+
+        return DeliverySummary(id, customer_found, delivered_at, had_problems)
+
+
+def mark_order_as_delivered(order_id, customer_found, had_problems):
+    t = text(
+        'insert into DeliverySummary (customer_found, delivered_at, had_problems, order_id) values (:customer_found, now() at time zone \'utc\', :had_problems, :order_id)')
+    db.engine.execute(t,
+                      order_id=order_id,
+                      customer_found=customer_found,
+                      had_problems=had_problems)
+
+
+def mark_order_as_rejected(order_id):
+    t = text(
+        'update YPKOrder set rejected = \'t\' where id = :order_id')
+    db.engine.execute(t, order_id=order_id)
 
 
 def get_pizzas_for_order(order_id):
@@ -79,16 +112,22 @@ def get_drinks_for_order(order_id):
 
     return drinks
 
+
 def add_pizza_to_order(order_id, pizza_id):
-    t = text('insert into YPKOrder_Pizza (order_id, pizza_id) values (:order_id, :pizza_id)')
+    t = text(
+        'insert into YPKOrder_Pizza (order_id, pizza_id) values (:order_id, :pizza_id)')
     db.engine.execute(t, order_id=order_id, pizza_id=pizza_id)
 
+
 def add_kebab_to_order(order_id, kebab_id):
-    t = text('insert into YPKOrder_Kebab (order_id, kebab_id) values (:order_id, :kebab_id)')
+    t = text(
+        'insert into YPKOrder_Kebab (order_id, kebab_id) values (:order_id, :kebab_id)')
     db.engine.execute(t, order_id=order_id, kebab_id=kebab_id)
 
+
 def add_drink_to_order(order_id, drink_id):
-    t = text('insert into YPKOrder_Drink (order_id, drink_id) values (:order_id, :drink_id)')
+    t = text(
+        'insert into YPKOrder_Drink (order_id, drink_id) values (:order_id, :drink_id)')
     db.engine.execute(t, order_id=order_id, drink_id=drink_id)
 
 
@@ -102,11 +141,12 @@ def save_order(order):
 
     t = text(
         'insert into YPKOrder (ordered_by, delivery_address, delivery_at, lunch_offer_active_when_ordered) values (:ordered_by, :delivery_address, :delivery_at, :lunch_offer_active_when_ordered) returning id')
-    result = db.engine.execute(t,
-                      ordered_by=ordered_by_id,
-                      delivery_address=order.delivery_address,
-                      delivery_at=order.delivery_at,
-                      lunch_offer_active_when_ordered=order.lunch_offer_active)
+    result = db.engine.execute(
+        t,
+        ordered_by=ordered_by_id,
+        delivery_address=order.delivery_address,
+        delivery_at=order.delivery_at,
+        lunch_offer_active_when_ordered=order.lunch_offer_active)
 
     for r in result:
         order.id = int(r[0])
@@ -118,8 +158,16 @@ def update_order(order):
 
 
 class Order():
-    def __init__(self, id, ordered_by, ordered_at, delivery_address,
-                 delivery_at, canceled, rejected, lunch_offer_active):
+    def __init__(self,
+                 id,
+                 ordered_by,
+                 ordered_at,
+                 delivery_address,
+                 delivery_at,
+                 canceled,
+                 rejected,
+                 lunch_offer_active,
+                 delivery_summary=None):
         self.id = id
         self.ordered_by = ordered_by
         self.ordered_at = ordered_at
@@ -132,6 +180,8 @@ class Order():
         self.pizzas = []
         self.kebabs = []
         self.drinks = []
+
+        self.delivery_summary = delivery_summary
 
     def total_price(self):
         total = 0.0
@@ -188,22 +238,38 @@ class Order():
 
     def add_kebab(self, kebab):
         if not self.id:
-            print('can\'t add kebab without own id')
+            print 'can\'t add kebab without own id'
 
         add_kebab_to_order(self.id, kebab.id)
 
     def add_pizza(self, pizza):
         if not self.id:
-            print('can\'t add pizza without own id')
+            print 'can\'t add pizza without own id'
 
         add_pizza_to_order(self.id, pizza.id)
 
     def add_drink(self, drink):
         if not self.id:
-            print('can\'t add drink without own id')
+            print 'can\'t add drink without own id'
 
         add_drink_to_order(self.id, drink.id)
 
+    def mark_as_delivered(self, customer_found, had_problems):
+        if not self.id:
+            print 'rip'
+
+        mark_order_as_delivered(self.id, customer_found, had_problems)
+
+    def mark_as_rejected(self):
+        if not self.id:
+            print 'rip'
+
+        mark_order_as_rejected(self.id)
 
 
-
+class DeliverySummary():
+    def __init__(self, id, customer_found, delivered_at, had_problems):
+        self.id = id
+        self.customer_found = customer_found
+        self.delivered_at = delivered_at
+        self.had_problems = had_problems

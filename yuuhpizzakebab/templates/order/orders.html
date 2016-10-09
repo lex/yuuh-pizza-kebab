@@ -27,15 +27,23 @@
             </thead>
             <tbody>
                 {% for o in orders %}
-                    <tr>
+                    {% if o.rejected %}
+                    <tr class="danger">
+                    {% elif o.delivery_summary %}
+                    <tr class="success">
+                    {% else %}
+                    <tr class="info">
+                    {% endif %}
                         <td>{{ o.ordered_by.username }}</td>
                         <td>{{ o.ordered_at }}</td>
                         <td>{{ o.delivery_address }}</td>
                         <td>{{ '${}'.format('%0.2f' % o.total_price()) }}</td>
                         <td><a href="{{ url_for('order_details', order_id=o.id) }}">Details</a></td>
+                        {% if not o.rejected and not o.delivery_summary %}
                         <td><a href="{{ url_for('add_discount', order_id=o.id) }}">Add Discount</a></td>
                         <td><a href="{{ url_for('reject_order', order_id=o.id) }}">Reject</a></td>
                         <td><a href="{{ url_for('mark_order_as_delivered', order_id=o.id) }}">Mark As Delivered</a></td>
+                        {% endif %}
                     </tr>
                 {% endfor %}
             </tbody>
