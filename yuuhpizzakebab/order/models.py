@@ -205,10 +205,13 @@ class Order():
     def get_all_active():
         orders = get_orders()
 
-        # filter here or in the database
-        print('fix fix fix fix')
+        filtered_orders = []
 
-        return orders
+        for o in orders:
+            if not o.rejected and not o.delivery_summary:
+                filtered_orders.append(o)
+
+        return filtered_orders
 
     @staticmethod
     def get_by_id(id):
