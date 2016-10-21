@@ -48,6 +48,15 @@ def update_kebab(kebab):
 
 
 class Kebab():
+    """The kebab class.
+
+    variables:
+    id - id of the kebab
+    name - name of the kebab
+    price - price of the kebab in USD
+    image_url - image of the kebab
+    """
+
     def __init__(self, id, name, price, image_url):
         self.id = id
         self.name = name

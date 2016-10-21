@@ -6,6 +6,7 @@ from flask import render_template, session, redirect, url_for, request, flash
 
 @app.route('/pizzas')
 def list_pizzas():
+    """Shows a list of pizzas."""
     return render_template('pizza/pizzas.html',
                            pizzas=Pizza.get_all(),
                            selecting=request.args.get('selecting'))
@@ -14,6 +15,11 @@ def list_pizzas():
 @app.route('/pizza/create', methods=['GET', 'POST'])
 @admin_required
 def create_pizza():
+    """Creates a new pizza.
+
+    Creates a new pizza with POST and associated any selected toppings with it.
+    Shows a form to fill with GET.
+    """
     if request.method == 'POST':
         name = request.form['pizza_name']
         price = request.form['pizza_price']
@@ -43,6 +49,14 @@ def create_pizza():
 @app.route('/pizza/edit/<int:pizza_id>', methods=['GET', 'POST'])
 @admin_required
 def edit_pizza(pizza_id):
+    """Edits a pizza.
+
+    arguments:
+    pizza_id -- id of the pizza
+
+    Saves the information with POST.
+    Shows a form to edit the contents with GET.
+    """
     if request.method == 'POST':
         name = request.form['pizza_name']
         price = request.form['pizza_price']
@@ -80,6 +94,11 @@ def edit_pizza(pizza_id):
 @app.route('/pizza/delete/<int:pizza_id>')
 @admin_required
 def delete_pizza(pizza_id):
+    """Deletes a pizza.
+
+    arguments:
+    pizza_id -- id of the pizza
+    """
     Pizza.delete_by_id(pizza_id)
     flash('Removed pizza', 'alert-success')
 

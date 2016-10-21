@@ -87,6 +87,16 @@ def update_pizza(pizza):
 
 
 class Pizza():
+    """The pizza class.
+
+    variables:
+    id - id of the pizza
+    name - name of the pizza
+    price - price of the pizza in USD
+    image_url - image of the pizza
+    toppings - list of toppings included in the pizza
+    """
+
     def __init__(self, id, name, price, image_url, toppings):
         self.id = id
         self.name = name

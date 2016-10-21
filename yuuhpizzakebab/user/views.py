@@ -5,6 +5,11 @@ from yuuhpizzakebab.user.database_functions import get_user, create_user
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    """Attempts to log the user in.
+
+    POST tries to log the user in with provided credentials.
+    GET shows the user the login form.
+    """
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -27,6 +32,7 @@ def login():
 
 @app.route('/logout')
 def logout():
+    """Marks the user as logged out."""
     session.pop('username', None)
     session.pop('user_id', None)
     session.pop('logged_in', None)
@@ -39,6 +45,11 @@ def logout():
 
 @app.route('/create_account', methods=['GET', 'POST'])
 def create_account():
+    """Creates a new account.
+
+    POST tries to create a new account with provided credentials.
+    GET shows the user an account creation form.
+    """
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']

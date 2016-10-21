@@ -6,6 +6,7 @@ from flask import request, redirect, url_for, session
 
 
 def login_required(f):
+    """The decorator for requiring a logged in user."""
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if not session.get('username'):
@@ -16,6 +17,7 @@ def login_required(f):
 
 
 def admin_required(f):
+    """The decorator for requiring a user with administrator privileges."""
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if not session.get('is_admin'):

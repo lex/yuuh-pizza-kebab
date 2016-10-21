@@ -69,8 +69,7 @@ def mark_order_as_delivered(order_id, customer_found, had_problems):
 
 
 def mark_order_as_rejected(order_id):
-    t = text(
-        'update YPKOrder set rejected = \'t\' where id = :order_id')
+    t = text('update YPKOrder set rejected = \'t\' where id = :order_id')
     db.engine.execute(t, order_id=order_id)
 
 
@@ -158,6 +157,23 @@ def update_order(order):
 
 
 class Order():
+    """The order class.
+
+    variables:
+    id - id of the order
+    ordered_by - the user who submitted the order
+    ordered_at - timestamp of when the order was created
+    delivery_adress - where to deliver the order
+    delivery_at - when to deliver the order
+    canceled - boolean of whether the order was canceled by the user
+    rejected - boolean of whether the order was rejected by an administrator
+    lunch_offer_active - boolean of whether the lunch offer was active when the order was placed
+    pizzas - list of pizzas included in the order
+    kebabs - list of kebabs included in the order
+    drinks - list of drinks included in the order
+    delivery_summary - information about the possible delivery
+    """
+
     def __init__(self,
                  id,
                  ordered_by,
@@ -271,6 +287,17 @@ class Order():
 
 
 class DeliverySummary():
+    """The delivery summary class.
+
+    Included in a delivered order.
+
+    variables:
+    id - id of the order
+    customer_found - boolean of whether the customer was found
+    delivered_at - timestamp of when the order was delivered
+    had_problems - boolean of whether there were problems with the delivery
+    """
+
     def __init__(self, id, customer_found, delivered_at, had_problems):
         self.id = id
         self.customer_found = customer_found

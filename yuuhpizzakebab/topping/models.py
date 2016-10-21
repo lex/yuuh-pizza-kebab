@@ -43,6 +43,14 @@ def update_topping(topping):
 
 
 class Topping():
+    """The topping class, which is included in pizzas.
+
+    variables:
+    id - id of the topping
+    name - name of the topping
+    price - price of the topping in USD
+    """
+
     def __init__(self, id, name, price):
         self.id = id
         self.name = name

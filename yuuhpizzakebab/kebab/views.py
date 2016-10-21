@@ -5,6 +5,7 @@ from flask import render_template, session, redirect, url_for, request, flash
 
 @app.route('/kebabs', methods=['GET'])
 def list_kebabs():
+    """Shows a list of kebabs."""
     return render_template('kebab/kebabs.html',
                            kebabs=Kebab.get_all(),
                            selecting=request.args.get('selecting'))
@@ -13,6 +14,11 @@ def list_kebabs():
 @app.route('/kebab/create', methods=['GET'])
 @admin_required
 def create_kebab():
+    """Creates a new kebabs.
+
+    Creates a new kebab with POST.
+    Shows a form to fill with GET.
+    """
     if request.method == 'POST':
         name = request.form['kebab_name']
         price = request.form['kebab_price']
@@ -34,6 +40,14 @@ def create_kebab():
 @app.route('/kebab/edit/<int:kebab_id>', methods=['GET', 'POST'])
 @admin_required
 def edit_kebab(kebab_id):
+    """Edits a kebabs.
+
+    arguments:
+    kebab_id -- id of the kebab
+
+    Saves the information with POST.
+    Shows a form to edit the contents with GET.
+    """
     if request.method == 'POST':
         name = request.form['kebab_name']
         price = request.form['kebab_price']
@@ -60,6 +74,11 @@ def edit_kebab(kebab_id):
 @app.route('/kebab/delete/<int:kebab_id>', methods=['GET'])
 @admin_required
 def delete_kebab(kebab_id):
+    """Deletes a kebab.
+
+    arguments:
+    kebab_id -- id of the kebab
+    """
     Kebab.delete_by_id(kebab_id)
     flash('Removed kebab', 'alert-success')
 

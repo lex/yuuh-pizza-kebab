@@ -1,6 +1,7 @@
 from sqlalchemy import text
 from yuuhpizzakebab import db
 
+
 def get_drinks():
     result = db.engine.execute('select * from Drink')
     drinks = []
@@ -45,7 +46,17 @@ def update_drink(drink):
                       image__url=drink.image_url,
                       drink_id=drink.id)
 
+
 class Drink():
+    """The drink class.
+
+    variables:
+    id - id of the drink
+    name - name of the drink
+    price - price of the drink in USD
+    image_url - image of the drink
+    """
+
     def __init__(self, id, name, price, image_url):
         self.id = id
         self.name = name
